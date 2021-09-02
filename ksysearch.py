@@ -11,6 +11,7 @@ url_1 = 'http://app.wftvqcm.com/pc/search/ajaxSearch?keyword='
 keyword = ""
 
 
+
 url = url_1+keyword+'&page='
 
 for index in range(1,100):
