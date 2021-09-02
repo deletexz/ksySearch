@@ -24,7 +24,6 @@ for index in range(1,100):
         link = index["link"]
         time = index["published_des"]
 
-
         sheet.write(i, 0, title)
         sheet.write(i, 1, link)
         sheet.write(i, 2, time)
