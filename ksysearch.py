@@ -8,19 +8,19 @@ i=0
 
 url_1 = 'http://app.wftvqcm.com/pc/search/ajaxSearch?keyword='
 
-keyword = ""
+keyword = "%E6%9C%8D%E5%8A%A1%E4%BC%81%E4%B8%9A"
 
 
 
 
 url = url_1+keyword+'&page='
 
-for index in range(1,100):
+for index in range(1,50):
     urls = url+str(index)
     strhtml = requests.get(urls)        #Get方式获取网页数据
     jsonzd = json.loads(strhtml.text)
     ksydata = jsonzd["data"]
-
+    print("")
 
     for index in ksydata:
         title = index["title"]
