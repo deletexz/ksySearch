@@ -8,7 +8,7 @@ i=0
 
 url_1 = 'http://app.wftvqcm.com/pc/search/ajaxSearch?keyword='
 
-keyword = "%E6%9C%8D%E5%8A%A1%E4%BC%81%E4%B8%9A"
+keyword = "%E6%99%AE%E9%80%9A%E8%AF%9D"
 
 
 
