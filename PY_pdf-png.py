@@ -60,6 +60,7 @@ def pyMuPDF_fitz(pdfPath, imagePath,name):
 
     print("imagePath="+imagePath)
     pdfDoc = fitz.open(pdfPath)
+    i = 0
     for pg in range(pdfDoc.pageCount):
         page = pdfDoc[pg]
         rotate = int(0)
@@ -74,7 +75,8 @@ def pyMuPDF_fitz(pdfPath, imagePath,name):
             os.makedirs(imagePath) # 若图片文件夹不存在就创建
 
         # pix.writePNG(imagePath+'/'+name+'images_%s.png' % pg)#将图片写入指定的文件夹内
-        pix.writePNG(imagePath+'/'+str(name)+'.png')#将图片写入指定的文件夹内
+        pix.writePNG(imagePath+'/'+str(name)+"("+str(i)+")"+'.png')#将图片写入指定的文件夹内
+        i=i+1
     endTime_pdf2img = datetime.datetime.now()#结束时间
     print('pdf2img时间=',(endTime_pdf2img - startTime_pdf2img).seconds)
 
@@ -82,7 +84,7 @@ def pyMuPDF_fitz(pdfPath, imagePath,name):
 if __name__ == "__main__":
 
     # namelist =["奎文区","潍城区","寒亭区","坊子区","青州市","诸城市","寿光市","安丘市","高密市","昌邑市","昌乐县","临朐县","潍坊国家高新技术产业开发区","潍坊滨海经济技术开发区","峡山生态经济开发区"]
-    namelist =["2016.1","2016.2","2017.1","2017.2","2017.3","2017.4","2018.1","2018.2","2018.3","2018.4","2019.1","2019.2","2019.3","2019.4","2020.1","2020.2","2020.3","2020.4"]
+    namelist =["扫描全能王 2021-11-16 10.09","扫描全能王 2021-11-16 10.10","扫描全能王 2021-11-16 10.38"]
     for name in namelist:
         pdfPath = 'pat/'+name+'.pdf'
 
