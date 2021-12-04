@@ -6,9 +6,11 @@ import openpyxl
 # from datetime import datetime
 import xlwt
 
-
+# 定义类
 class News:
-    def __init__(self, id,name,cehua,wenan,paishe,baozhuang,amount,cehuSalary,wenanSalary,paisheSalary,baozhuangSalary):
+    def __init__(self, id,name,cehua,wenan,paishe,baozhuang,amount,cehuSalary,wenanSalary,paisheSalary,baozhuangSalary,
+                 xz1,xzSa1,xz2,xzSa2,xz3,xzSa3,xz4,xzSa4):
+
         self.id = id
         self.name = name
         self.cehua = cehua
@@ -21,6 +23,15 @@ class News:
         self.wenanSalary = wenanSalary
         self.paisheSalary = paisheSalary
         self.baozhuangSalary = baozhuangSalary
+
+        self.xz1 = xz1
+        self.xzSa1 = xzSa1
+        self.xz2 = xz2
+        self.xzSa2 = xzSa2
+        self.xz3 = xz3
+        self.xzSa3 = xzSa3
+        self.xz4 = xz4
+        self.xzSa4 = xzSa4
 
 
 # 储存对象
@@ -72,6 +83,14 @@ def Data_processing():
         paishetext = lines[5].value
         baozhuangtext = lines[6].value
         amount = lines[14].value
+
+        xz1text = lines[15].value
+        xz2text = lines[16].value
+        xz3text = lines[17].value
+        xz4text = lines[18].value
+
+        # 关闭工作薄
+        wb.close()
         # amount = lines[8].value
         if(amount ==None):
             continue
@@ -104,9 +123,74 @@ def Data_processing():
         paisheSalary = float(paisheSalary[0]) /100 * float(amount)
         baozhuangSalary= float(baozhuangSalary[0]) /100 * float(amount)
 
+        xz = {}
+        for insz in range(xz1text,xz2text,xz3text,xz4text):
+
+            xzl = re.sub('[^\u4e00-\u9fa5]+','',insz[0] if len(cehualist)>1 else '')
+            xzlSa = re.findall(r'\d+', insz[1] if len(cehualist)>1 else '0')
+            xzlSalary = float(xzlSa[0]) /100 * float(amount)
+
+            if(xzl != '' and xzlSalary != 0):
+                # xzdi = {}
+                xz[xzl] = xzlSalary
+
+
+
+        xzpes = xz.keys()
+
+        if(len(xzpes) == 0):
+            xz1 = ''
+            xzSa1 = 0
+            xz2 = ''
+            xzSa2 = 0
+            xz3 = ''
+            xzSa3 = 0
+            xz4 = ''
+            xzSa4 = 0
+        elif(len(xzpes) == 1):
+            xz1 = xzpes[0]
+            xzSa1 = xz[xzpes[0]]
+
+            xz2 = ''
+            xzSa2 = 0
+            xz3 = ''
+            xzSa3 = 0
+            xz4 = ''
+            xzSa4 = 0
+        elif(len(xzpes) == 2):
+            xz1 = xzpes[0]
+            xzSa1 = xz[xzpes[0]]
+            xz2 = xzpes[1]
+            xzSa2 = xz[xzpes[1]]
+
+            xz3 = ''
+            xzSa3 = 0
+            xz4 = ''
+            xzSa4 = 0
+        elif(len(xzpes) == 3):
+            xz1 = xzpes[0]
+            xzSa1 = xz[xzpes[0]]
+            xz2 = xzpes[1]
+            xzSa2 = xz[xzpes[1]]
+            xz3 = xzpes[2]
+            xzSa3 = xz[xzpes[2]]
+
+            xz4 = ''
+            xzSa4 = 0
+
+        else:
+            xz1 = xzpes[0]
+            xzSa1 = xz[xzpes[0]]
+            xz2 = xzpes[1]
+            xzSa2 = xz[xzpes[1]]
+            xz3 = xzpes[2]
+            xzSa3 = xz[xzpes[2]]
+            xz4 = xzpes[3]
+            xzSa4 = xz[xzpes[3]]
 
         print(id)
-        news = News(id,name,cehua,wenan,paishe,baozhuang,amount,cehuSalary,wenanSalary,paisheSalary,baozhuangSalary)
+        news = News(id,name,cehua,wenan,paishe,baozhuang,amount,cehuSalary,wenanSalary,paisheSalary,baozhuangSalary,
+                    xz1,xzSa1,xz2,xzSa2,xz3,xzSa3,xz4,xzSa4)
         print(news)
         print(Arraylistss)
         Arraylistss.append(news)
@@ -117,8 +201,7 @@ def Data_processing():
 
 
 
-    # 关闭工作薄
-    wb.close()
+
     # print(Arraylistss.values())
 
     # print(id.value)
@@ -133,7 +216,7 @@ def Data_processing():
     #     print(case_excepted,case_data)
     # # 关闭工作薄
     # wb.close()
-    pass
+
 
 # 汇总
 # def Salary2(s,k):
@@ -165,8 +248,6 @@ def Salary(s,k):
             list1 = [per.cehua]
             list1.append({per.id:per.cehuSalary})
             NameSalarylist[per.cehua] = list1
-
-
         else:
             NameSalary[per.cehua] = NameSalary[per.cehua]+per.cehuSalary             #合计
             if(per.cehuSalary != 0):
