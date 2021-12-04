@@ -243,13 +243,17 @@ def Data_processing():
 # 汇总
 def Salary(s,k):
     for per in Arraylistss:
+        # 判断是否存在
+        # 不存在创建
         if(NameSalary.get(per.cehua) == None):
             NameSalary[per.cehua] = per.cehuSalary
             list1 = [per.cehua]
             list1.append({per.id:per.cehuSalary})
             NameSalarylist[per.cehua] = list1
+
+        # 存在添加
         else:
-            NameSalary[per.cehua] = NameSalary[per.cehua]+per.cehuSalary             #合计
+            NameSalary[per.cehua] = NameSalary[per.cehua]+per.cehuSalary   #合计
             if(per.cehuSalary != 0):
                 NameSalarylist[per.cehua].append({per.id:per.cehuSalary})  #明细
 
@@ -287,6 +291,11 @@ def Salary(s,k):
             NameSalary[per.baozhuang] = NameSalary[per.baozhuang]+per.baozhuangSalary
             if(per.baozhuangSalary != 0):
                 NameSalarylist[per.baozhuang].append({per.id:per.baozhuangSalary})
+
+
+
+
+
 
 
 
