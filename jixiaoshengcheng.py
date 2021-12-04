@@ -262,7 +262,7 @@ def Sumlist():
     # wb.save('结果.xlsx')
 
 
-    pass
+
 
 #
 FaGaolist = []
@@ -299,35 +299,112 @@ def FaGao():
     # A = [{name:**,id:**},{name:**,id:**}]
     bijiao = {}
     # for i in range(0,len(A)):
-    listABCEDF = [A,B,C,D,E,F]
-    count=[]
 
+    # count= []
+    counts = {}
+    # Namedic = {}
+
+    listABCEDF = [A,B,C,D,E,F]
+    # 循环[A,B,C,D,E,F]
     for perABCEDF in listABCEDF:
 
-
+        # 循环 B
         for i in perABCEDF:
             bijiaoName=i["name"]
             bijiaoId=i["id"]
             bigrade=i["Grade"]
-            cot={bijiaoName:[{bigrade:[bijiaoId]}]}
 
+            # {name:{{"A":[2,3,4]},{"B":[2,3,4]}}}
+            Namedic = {bijiaoName:{}}
+
+            # cot={bijiaoName:[{bigrade:[bijiaoId]}]}
+
+            # {"A":[2,3,4]}
+            Dic = {bigrade:[bijiaoId]}
             for ii in perABCEDF:
                 if(bijiaoName == ii["name"]):
+                    Dic[bigrade].append((ii["id"]))
 
-
-
-                    cot[bijiaoName][bigrade].append(ii["id"])
+                    # cot[bijiaoName][bigrade].append(ii["id"])
             # cot[bijiaoName] = set(cot[bijiaoName])
+            Dic[bigrade] = list(set(Dic[bigrade]))
+            # {name:[{"A":[2,3,4]},{"B":[2,3,4]}]}
+            # Namedic[bijiaoName]
 
+            Namedic[bijiaoName].update(Dic)
 
-            cot[bijiaoName][cotindex][bigrade] = list(set(cot[bijiaoName][bigrade]))
+            # cot[bijiaoName][cotindex][bigrade] = list(set(cot[bijiaoName][bigrade]))
 
+            if(counts.get(bijiaoName)!=None):
+                counts[bijiaoName].update(Dic)
+            else:
+                counts.update(Namedic)
+                pass
 
-            count.append(cot)
+            # count.append(Namedic)
             # cot.clear()
-            print()
 
-    count.__str__()
+    finalcout = {}
+    for cname in counts.keys():
+        ccna = {cname: {}}
+        for cgrade in counts[cname].keys():
+            clen = len(counts[cname][cgrade])
+            ccgr = {cgrade:clen}
+
+            ccna[cname].update(ccgr)
+
+        finalcout.update(ccna)
+
+
+    new_wk=xlwt.Workbook()  #创建工作簿
+    new_sheet=new_wk.add_sheet('sheetname')    #创建名为sheetname的工作表
+
+    #在i行，j列写入内容：content，i，j从0开始
+    # new_sheet.write(i,j,NSl)
+    j=1
+    for perabc in ["A","B","C","D","E","F"]:
+        new_sheet.write(0,j,perabc)
+        j=j+1
+    j=1
+    for perna in finalcout.keys():
+
+        new_sheet.write(j,0,perna)
+
+        sum = 0
+        for per in finalcout[perna]:
+            if(per=="A"):
+                text = "A类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,1,text)
+                sum =sum + finalcout[perna][per]
+            elif(per=="B"):
+                text = "B类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,2,text)
+                sum =sum + finalcout[perna][per]
+            elif(per=="C"):
+                text = "C类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,3,text)
+                sum =sum + finalcout[perna][per]
+            elif(per=="D"):
+                text = "D类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,4,text)
+                sum =sum + finalcout[perna][per]
+            elif(per=="E"):
+                text = "E类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,5,text)
+                sum =sum + finalcout[perna][per]
+            elif(per=="F"):
+                text = "F类稿件"+ str(finalcout[perna][per]) +"件;"
+                new_sheet.write(j,6,text)
+                sum =sum + finalcout[perna][per]
+            else:
+                pass
+
+        new_sheet.write(j,8,sum)
+
+        j=j+1
+
+    new_wk.save('等级.xls')     #使用xlwt写入操作后，需要保存
+    # count.__str__()
     print("")
 
 
@@ -347,6 +424,7 @@ def litfg(listfg,per,djGrade):
         listfg.append({"id":per.id,"name":per.paishe,"Grade":djGrade})
     if(per.baozhuang!=""):
         listfg.append({"id":per.id,"name":per.baozhuang,"Grade":djGrade})
+        
 
 
 if __name__ == "__main__":
